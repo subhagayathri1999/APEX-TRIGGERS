@@ -1,0 +1,6 @@
+trigger namecontateemaii on Opportunity (before insert) {
+    
+    if(Trigger.isinsert  && Trigger.isafter){ 
+        contactemail.defaultcontact(trigger.new);
+
+}

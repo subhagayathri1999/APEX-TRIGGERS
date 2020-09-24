@@ -1,0 +1,26 @@
+trigger updateaccount on Opportunity (after insert,after update) {
+           List<Account> lstAccounts = new List<account>();
+            set<Id> setAccountIds = new set<Id>();
+            map<Id,Opportunity> mapAccIdOpp = new map<Id,opportunity>();
+            if(trigger.isInsert || trigger.isUpdate &&  trigger.isAfter) {
+            for(opportunity obj: trigger.new){
+                setAccountIds.add(obj.AccountId);
+            }
+            for(opportunity obj: trigger.new) {
+                mapAccIdOpp.put(obj.AccountId,obj);
+            }
+            for(Account obj: [select Id, is_gold__c from Account where Id IN : setAccountIds]){
+                
+                if(mapAccIdopp.get(obj.Id).Amount >20000){
+                    obj.is_gold__c = TRUE;
+                    lstAccounts.add(obj);
+                }
+                else{
+                    obj.is_gold__c = FALSE; 
+                lstAccounts.add(obj);
+            }
+            
+        }
+            update lstAccounts;
+        }
+        }

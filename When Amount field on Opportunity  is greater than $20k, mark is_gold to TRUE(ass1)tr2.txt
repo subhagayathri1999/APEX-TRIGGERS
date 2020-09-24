@@ -1,0 +1,7 @@
+trigger accountfields on Opportunity (before insert) {
+      if(Trigger.isinsert || Trigger.isupdate && Trigger.isafter){  
+         accountclass.AccountChangeEvent(trigger.new);
+    }
+    
+
+}

@@ -1,0 +1,17 @@
+trigger account on Account (after insert) {
+    List<Contact> conList = new List<Contact>();                     
+		for(Account acc : Trigger.new) {
+			  Contact con = new Contact(AccountId = acc.Id);
+			  List<String> nameStr = acc.Name.split(' ');
+			
+				 con.LastName = 'Default';
+			 
+				  con.FirstName = 'Info';
+				  
+			con.Email = 'info@websitedomain.ltd';
+			
+			conList.add(con);
+		}
+		insert conList;		
+
+}

@@ -1,0 +1,20 @@
+trigger updateprofile on Account (after insert,after update) {
+    
+    List<contact> lstContact = new List<Contact> ([SELECT Id,firstName,LastName,AccountId FROM Contact WHERE AccountId IN: trigger.new]);
+    Map<Id,Account> mapAccountIdAccount = new Map<Id, Account> ([SELECt Id, website FROM Account WHERE Id In: trigger.new]);
+    List<Contact> lstContactstoUpdate = new List<Contact>();
+    if(Trigger.isInsert || Trigger.isUpdate && Trigger.isAfter){
+        
+        for(Contact obj : lstContact) {
+            
+            Account objAccount= mapAccountIdAccount.get(obj.AccountId);
+         
+            string strFirstName = obj.FirstName.substring(0,1);
+            obj.profile__c = objAccount.website + '/' + strFirstName + obj.LastName;
+            lstContactstoUpdate.add(obj);
+             
+            update lstContactstoUpdate;
+    }
+
+}
+}
